@@ -2,36 +2,45 @@
 
 <!-- end auto-generated rule header -->
 
-Please describe the origin of the rule here.
-
 ## Rule Details
 
-This rule aims to...
+This rule aims to prevent develops from importing high-level modules from low-level modules.
 
-Examples of **incorrect** code for this rule:
+Usually, we would divide the source codes of a project into several layers. Typically, the `components` and the `pages`.
 
-```js
+As a good practice, code under `pages` folder, which contains the high-level modules, could depend on those under `components` folder, which we consider low-level modules, but not the vice versa.
 
-// fill me in
+This eslint plugin provides an easy way for develops to enforce the layered architecture in a single repo.
 
-```
+Sample usage:
 
-Examples of **correct** code for this rule:
+```json
 
-```js
-
-// fill me in
+    "layered-import/wrong-import-layer": [
+      "warn",
+      {
+        "layerConfigs": [
+          { "layer": 1, "pattern": "lib/**" },
+          { "layer": 2, "pattern": "api/**" },
+          { "layer": 3, "pattern": "components/**" },
+          { "layer": 4, "pattern": "templates/**" },
+          { "layer": 5, "pattern": "views/**" },
+        ],
+      },
+    ],
 
 ```
 
 ### Options
 
-If there are any options, describe them here. Otherwise, delete this section.
+| Name                           | Description                                                                                         | Type   | Required |
+| :----------------------------- | :-------------------------------------------------------------------------------------------------- | :----- | :------- |
+| `currentFilePath`              | Override the path of the current file. Only used in tests.                                          | String |          |
+| `defaultLayer`                 | The default layer for imports that are not matched by any layerConfig.                              | Number |          |
+| `layerConfigs`                 | Define the matching behavior of each layer. It constains two properties: layer & pattern. See below | Array  |          |
+| `layerConfigs.layer`           | The layer number. The smaller the layer, the more basic it is.                                      | Number | Yes      |
+| `layerConfigs.pattern`         | The glob pattern for the layer.                                                                     | String | Yes      |
 
 ## When Not To Use It
 
-Give a short description of when it would be appropriate to turn off this rule.
-
-## Further Reading
-
-If there are other links that describe the issue this rule addresses, please include them here in a bulleted list.
+When your project is very small and it is even not worthy separating codes into layers
