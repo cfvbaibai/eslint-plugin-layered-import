@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-layered-import",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beat.1",
   "description": "Enforced layered architecture by checking import statements",
   "keywords": [
     "eslint",
