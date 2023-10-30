@@ -60,7 +60,7 @@ ruleTester.run("wrong-import-layer", rule, {
             { layer: 3, path: 'pages/**' },
           ]
         },
-        { physicalFilename: '/c/code/src/components/foo.js' }
+        { physicalFilename: 'C:\\code\\src\\components\\foo.js' }
       ],
     },
   ],
@@ -80,7 +80,7 @@ ruleTester.run("wrong-import-layer", rule, {
         },
       ],
       errors: [{
-        messageId: 'wrongImportLayer',
+        message: 'Cannot import modules at "pages/**" (layer 3) from a file at "components/**" (layer 2).',
       }],
     },
     {
@@ -93,12 +93,10 @@ ruleTester.run("wrong-import-layer", rule, {
             { layer: 3, path: 'pages/**' },
           ]
         },
-        {
-          physicalFilename: '/c/code/src/components/foo.js'
-        },
+        { physicalFilename: 'C:\\code\\src\\components\\foo.js' }
       ],
       errors: [{
-        messageId: 'wrongImportLayer',
+        message: 'Cannot import modules at "pages/**" (layer 3) from a file at "components/**" (layer 2).',
       }],
     },
   ],
