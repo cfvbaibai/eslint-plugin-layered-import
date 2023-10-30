@@ -4,32 +4,60 @@
 
 ## Rule Details
 
-This rule aims to prevent develops from importing high-level modules from low-level modules.
+This is the only rule to warn wrong import layers.
 
-Usually, we would divide the source codes of a project into several layers. Typically, the `components` and the `pages`.
+It is turned off by default, as you must provide knowledge about the layer-separation logic to make this rule useful.
 
-As a good practice, code under `pages` folder, which contains the high-level modules, could depend on those under `components` folder, which we consider low-level modules, but not the vice versa.
+Here is sample rule configuration for a Vue 3 project.
 
-This eslint plugin provides an easy way for develops to enforce the layered architecture in a single repo.
-
-Sample usage:
-
-```json
-
-    "layered-import/wrong-import-layer": [
-      "warn",
-      {
-        "layerConfigs": [
-          { "layer": 1, "pattern": "lib/**" },
-          { "layer": 2, "pattern": "api/**" },
-          { "layer": 3, "pattern": "components/**" },
-          { "layer": 4, "pattern": "templates/**" },
-          { "layer": 5, "pattern": "views/**" },
-        ],
-      },
-    ],
+Assume project folder structure is:
 
 ```
+  my-vue3-proj
+    |
+    +-- src
+    |     +-- lib
+    |     |     +-- crypto.ts
+    |     |     +-- network.ts
+    |     |
+    |     +-- api
+    |     |     +-- order.ts
+    |     |     +-- user.ts
+    |     |
+    |     +-- components
+    |     |     +-- ...
+    |     |
+    |     +-- templates
+    |     |
+    |     +-- views
+    |
+    +-- package.json
+    +-- .eslintrc.js
+    +-- ...
+    |
+```
+
+We could configure the rule like below:
+
+```json
+  "layered-import/wrong-import-layer": [
+    "warn",
+    {
+      "layerConfigs": [
+        { "layer": 1, "pattern": "lib/**" },
+        { "layer": 2, "pattern": "api/**" },
+        { "layer": 3, "pattern": "components/**" },
+        { "layer": 4, "pattern": "templates/**" },
+        { "layer": 5, "pattern": "views/**" },
+      ],
+    },
+  ],
+```
+
+### Note
+
+* This rule has an assumption that all source code files are under ``src`` folder at the project root.
+* You should **NOT** specify ``src`` in the ``layerConfigs.pattern`` field.
 
 ### Options
 
@@ -43,4 +71,4 @@ Sample usage:
 
 ## When Not To Use It
 
-When your project is very small and it is even not worthy separating codes into layers
+Consider not using this rule when your project is very small and it's not worth separating code into layers.
